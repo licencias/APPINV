@@ -1,0 +1,34 @@
+{% extends "layout.html" %} {% block body %}
+<script>
+    alert("El ID Del Usuario No Existe");
+</script>
+<div class="row">
+    <div class="col-md-3" id="seccion">
+        <div class="card card-body" id="selector">
+            <form action="">
+                <div class="form-group">
+                    <a href="formulario_factura" class="form-control btn btn-primary">Formulario Factura y proveedor</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_componente" class="form-control btn btn-primary">Registro de Componentes</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_mert" class="form-control btn btn-primary">Registrar un MERT</a>
+                </div>
+                <div class="form-group">
+                    <a href="qa_mert" class="form-control btn btn-primary">Quality Assurance MERT</a>
+                </div>
+
+                <div class="form-group">
+                    <a href="formulario_mert_produccion" class="form-control btn btn-primary">Registro de MERT a
+                                Producción</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card card-body">
+            <a href="formulario_componente"><button class="btn btn-success">Volver a Llenar Formulario de Componentes</button></a> {% endblock %}
+        </div>
+    </div>
+</div>

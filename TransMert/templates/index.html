@@ -1,0 +1,67 @@
+{% extends "layout.html" %} {% block body %}
+
+<script src="static/js/jquery-3.2.1.min.js">
+    $(document).ready(function() {
+        $("").click(function() {
+            var url = $(this).attr("href");
+            $("#seccion").load(url);
+
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-md-3" id="seccion">
+        <div class="card card-body" id="selector">
+            <form action="">
+                <div class="form-group">
+                    <a href="formulario_factura" class="form-control btn btn-primary">Formulario Factura y proveedor</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_componente" class="form-control btn btn-primary">Registro de Componentes</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_mert" class="form-control btn btn-primary">Registrar un MERT</a>
+                </div>
+                <div class="form-group">
+                    <a href="qa_mert" class="form-control btn btn-primary">Quality Assurance MERT</a>
+                </div>
+
+                <div class="form-group">
+                    <a href="formulario_mert_produccion" class="form-control btn btn-primary">Registro de MERT a
+                        Producción</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mb-5">
+        <h3 class="card-header">Sistema de Inventario Para MERT</h3>
+        <div class="card-body">
+            <h5 class="card-title">Una APP de NetAxion Chile SPA</h5>
+            <h6 class="card-subtitle text-muted">NetAxion Chile SPA</h6>
+        </div>
+        <img style="height: 200px; width:75%; display: block;" src="data:image/png;base64,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"
+            alt="Card image">
+        <div class="card-body">
+            <p class="card-text">¿Problemas con la aplicación?</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Comunicar Problema a Correo de Contacto</li>
+            <li class="list-group-item">mfernandez@netaxion.cl</li>
+        </ul>
+        <strong class="container">
+            <div class="card-footer text-muted ">
+                <script>
+                    var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+                    var diasSemana = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+                    var f = new Date();
+                    document.write(diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
+                </script>
+        </strong>
+    </div>
+</div>
+
+
+
+{% endblock %}

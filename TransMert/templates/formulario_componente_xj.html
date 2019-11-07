@@ -1,0 +1,68 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-body">
+            <form action="">
+                <div class="form-group">
+                    <a href="formulario_factura" class="form-control btn btn-primary">Formulario Factura y proveedor</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_componente" class="form-control btn btn-primary">Registro de Componentes</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_pic" class="form-control btn btn-primary">revisar componentes</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_pic" class="form-control btn btn-primary">registrar un PIC</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_mert" class="form-control btn btn-primary">Registrar un MERT</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_mert" class="form-control btn btn-primary">Quality Assurance PIC</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_mert_produccion" class="form-control btn btn-primary">Quality Assurance MERT</a>
+                </div>
+
+                <div class="form-group">
+                    <a href="formulario_mert_produccion" class="form-control btn btn-primary">Registro de MERT a
+                        Producción</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card card-body">
+            <form action="/formulario_componente" method="POST">
+                <h2>Registro de Componentes</h2>
+                <br>
+                <strong>
+                    <h4>Datos del Componente:</h4>
+                </strong>
+                <div class="form-group">
+                    <label for="exampleSelect1"><strong>Seleccionar Componente por Número Serial Auto
+                            Registrada</strong></label>
+                    <select class="form-control" id="opcion" onchange="javascript: funcion1(this.value)">
+                        {% for i in componentes %}
+                            <option>Número Serial: {{i.0}} Equipo:{{i.2}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <div class="form-control">
+                        <button class="btn btn-success" name="boton" type="button" onclick="javascript: funcion2('xD')">boton</button>
+                    </div>
+                    <div class="form-control mf-prueba"></div>
+                    <br>
+                    <p></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

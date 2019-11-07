@@ -1,0 +1,145 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="row">
+    <div class="col-md-3" id="seccion">
+        <div class="card card-body" id="selector">
+            <form action="">
+                <div class="form-group">
+                    <a href="formulario_factura" class="form-control btn btn-primary">Formulario Factura y proveedor</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_componente" class="form-control btn btn-primary">Registro de Componentes</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_mert" class="form-control btn btn-primary">Registrar un MERT</a>
+                </div>
+                <div class="form-group">
+                    <a href="qa_mert" class="form-control btn btn-primary">Quality Assurance MERT</a>
+                </div>
+
+                <div class="form-group">
+                    <a href="formulario_mert_produccion" class="form-control btn btn-primary">Registro de MERT a
+                                Producción</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card card-body">
+            <form action="/formulario_proveedor" method="POST">
+                <h2>Formulario de Factura y Proveedores</h2>
+                <br>
+                <strong>
+                <h4>Datos del Proveedor:</h4>
+            </strong>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Nombre del Proveedor</strong>
+                    <input type="text" name="nombre_proveedor" placeholder="Proveedor" class=" form-control" onchange="javascript: validar_text(this.value)" required>
+                </div>
+                <div class="form-group">
+                    <strong>Rut Proveedor</strong>
+                    <input type="text" name="rut_proveedor" placeholder="" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <strong>Fecha de Emisión</strong>
+                    <input type="date" name="fecha_factura" placeholder="" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <strong>Código del Producto</strong>
+                    <input type="text" name="codigo_producto" placeholder="" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Seleccionar Producto</strong>
+                    <select name="nombre_producto" id="v1" class="form-control">
+                            <option value="0">Seleccionar</option>
+                            <option value="Antena GPS - SMA Macho- Cable">Antena GPS - SMA Macho- Cable</option>
+                            <option value="Antena Wifi">Antena Wifi</option>
+                            <option value="Antivibrador">Antivibrador</option>
+                            <option value="Cable alimentacion (100m)">Cable alimentacion (100m)</option>
+                            <option value="Cable de Datos (28AWG)">Cable de Datos (28AWG)</option>
+                            <option value="Cable de Red (Cat 5E) (Caja)">Cable de Red (Cat 5E) (Caja)</option>
+                            <option value="Cable de Datos (28AWG)">Cable de Datos (28AWG)</option> 
+                            <option value="Cajas">Cajas</option>>
+                            <option value="Pigtail SMA Hembra">Pigtail SMA Hembra</option>
+                            <option value="Conectores Terminales Phoenix">Conectores Terminales Phoenix</option>
+                            <option value="Conectores RF TNC">Conectores RF TNC</option>
+                            <option value="Portafusible">Portafusible</option>
+                            <option value="Separadores plasticos 12mm">Separadores plasticos 12mm</option>
+                            <option value="Pernos M3 (Pintura)">Pernos M3 (Pintura)</option>
+                            <option value="Pintura Caja">Pintura Caja</option>
+                            <option value="Etiqueta EMLS (60x30)R SR">Etiqueta EMLS (60x30)R SR</option>
+                            <option value="Etiqueta EMLS (15x9)R SR">Etiqueta EMLS (15x9)R SR</option>
+                            <option value="Conector M12 1421679">Conector M12 1421679</option>
+                            <option value="Plastik 400cc (Laca)">Plastik 400cc (Laca)</option>
+                            <option value="Raspberry Pi 3 B+">Raspberry Pi 3 B+</option>
+                            <option value="Placa circuito (PCB)">Placa circuito (PCB)</option>
+                            <option value="FTDI">FTDI</option>
+                            <option value="GPS">GPS</option>
+                            <option value="RTC">RTC</option>
+                            <option value="Fuente de poder Phoenix">Fuente de poder Phoenix</option>
+                            <option value="Protección Goma para conector Hembra 10">Protección Goma para conector Hembra 10</option>
+                            <option value="Protección Goma para conector Hembra 6">Protección Goma para conector Hembra 6</option>
+                            <option value="Protección Goma para conector Hembra 2">Protección Goma para conector Hembra 2</option>
+                            <option value="Conector Militar 2 Pin Macho Chasis">Conector Militar 2 Pin Macho Chasis</option>
+                            <option value="Conector Militar 6 Pin Macho Chasis">Conector Militar 6 Pin Macho Chasis</option>
+                            <option value="Conector Militar 10 Pin Macho volante">Conector Militar 10 Pin Macho volante</option>
+                            <option value="Conector Militar 2 Pin Hembra volante">Conector Militar 2 Pin Hembra volante</option>
+                            <option value="Conector Militar 6 Pin Hembra volante">Conector Militar 6 Pin Hembra volante</option>
+                            <option value="Conector Militar 10 Pin Hembra Chasis">Conector Militar 10 Pin Hembra Chasis</option>
+                            <option value="Placa Netaxion">Placa Netaxion</option> 
+                            <option value="Conectores RF SMA">Conectores RF SMA</option> 
+                            <option value="Cable RF Pigtail TNC">Cable RF Pigtail TNC</option> 
+                            <option value="Omega fuente">Omega fuente</option> 
+                            <option value="Termoretractil de 5mm">Termoretractil de 5mm</option> 
+                            <option value="Cable Rojo-Negro Alimentación">Cable Rojo-Negro Alimentación</option> 
+                            <option value="Termoretractil de 3mm">Termoretractil de 3mm</option> 
+                            <option value="Soporte Diodos 8mm">Soporte Diodos 8mm</option>
+                            <option value="Resistencias 1K">Resistencias 1K</option> 
+                            <option value="Termoretractil de 1mm">Termoretractil de 1mm</option> 
+                            <option value="Separadores plasticos 8mm">Separadores plasticos 8mm</option> 
+                            <option value="Diodos Led RGB">Diodos Led RGB</option> 
+                            <option value="Cable Jumper">Cable Jumper</option> 
+                            <option value="RJ45">RJ45</option> 
+                            <option value="Pernos Omega">Pernos Omega</option> 
+                            <option value="Pernos">Pernos</option> 
+                            <option value="Tuercas">Tuercas</option>
+                            <option value="Golillas Soporte Raspberry">Golillas Soporte Raspberry</option>
+                            <option value="Goma Conector RF">Goma Conector RF</option>
+                            <option value="Discipadores Raspberry">Discipadores Raspberry</option>
+                            <option value="Amarras plasticas 3.6x150 mm">Amarras plasticas 3.6x150 mm</option>
+                            <option value="Calugas adhesivas">Calugas adhesivas</option>
+                            <option value="Terminales Punta Rojo">Terminales Punta Rojo</option>
+                            <option value="Terminales Punta Azul">Terminales Punta Azul</option>
+                            <option value="Cubre cable">Cubre cable</option>
+                            <option value="Pernos para conectores con tuerca">Pernos para conectores con tuerca</option> 
+                            <option value="Cable USB">Cable USB</option> 
+                            <option value="Micro USB">Micro USB</option> 
+                            <option value="Micro SD 64 GB">Micro SD 64 GB</option> 
+                            <option value="Conector trasero Radio">Conector trasero Radio</option> 
+                            <option value="Conector UFL">Conector UFL</option> 
+                            <option value="Ziploc">Ziploc</option> 
+                            <option value="Embalaje">Embalaje</option>     
+                        </select>
+                </div>
+                <div class="form-group">
+                    <strong>Cantidad del Producto</strong>
+                    <input type="number" name="cantidad" placeholder="" class=" form-control" onchange="javascript: validar(this.value)" required>
+                </div>
+                <div class="container form-group row">
+                    <div>
+                        <button type="submit" class="btn btn-success">
+                        Guardar
+                    </button>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

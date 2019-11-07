@@ -1,0 +1,79 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="row">
+    <div class="col-md-3" id="seccion">
+        <div class="card card-body" id="selector">
+            <form action="">
+                <div class="form-group">
+                    <a href="formulario_factura" class="form-control btn btn-primary">Formulario Factura y proveedor</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_componente" class="form-control btn btn-primary">Registro de Componentes</a>
+                </div>
+                <div class="form-group">
+                    <a href="formulario_mert" class="form-control btn btn-primary">Registrar un MERT</a>
+                </div>
+                <div class="form-group">
+                    <a href="qa_mert" class="form-control btn btn-primary">Quality Assurance MERT</a>
+                </div>
+
+                <div class="form-group">
+                    <a href="formulario_mert_produccion" class="form-control btn btn-primary">Registro de MERT a Producción</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card card-body">
+            <form action="/form_prod" method="POST">
+                <blockquote class="blockquote">
+                    <p class="mb-0">Información Mert a Producción
+                    </p>
+                </blockquote>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Número de Serie de Origen</strong>
+                    <input type="number" name="serie_origen" placeholder="" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Nombre Cliente</strong>
+                    <input type="text" name="nombre" placeholder="" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Rut Cliente</strong>
+                    <input type="text" name="rut" placeholder="" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Fecha de Salida</strong>
+                    <input type="date" name="fecha" placeholder="" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Serial de Salida</strong>
+                    <input type="number" name="serial" placeholder="" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Flota Destino</strong>
+                    <input type="text" name="flota" placeholder="" class=" form-control" required>
+                </div>
+
+                <div class="container form-group row">
+                    <div>
+                        <button type="submit" class="btn btn-success">
+                        Guardar
+                    </button>
+                    </div>
+                </div>
+
+
+        </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
