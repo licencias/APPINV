@@ -40,31 +40,36 @@
     </div>
 
     <div class="card mb-5 col-md-7">
-        <h3 class="card-header">Sistema de Inventario Para MERT</h3>
+        <h3 class="card-header">Equipos MERT en Produccion</h3>
         <div class="card-body">
-            <h5 class="card-title">Una APP de NetAxion Chile SPA</h5>
-            <h6 class="card-subtitle text-muted">NetAxion Chile SPA</h6>
+            <form action="tabla_mert_produccion" method="POST">
+                <table class="table table-striped table-hover table-bordered table-sm bg-white">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>Registrado Por:</td>
+                            <td>Serial</td>
+                            <td>Configuración</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dato in datos %}
+                        <tr>
+                            <td aria-valuenow="aux">{{dato.0}}</td>
+                            <td>{{dato.1}}</td>
+                            <td>{{dato.3}}</td>
+                            <td>
+                                <a href="/" class="btn btn-secondary">Editar</a>
+                                <a href="/delete2/{{dato.0}}" class="btn btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
         </div>
-        <img style="height: 300px; width:700px; display: block;" src="https://img.interempresas.net/fotos/2059386.jpeg" alt="Card image">
-        <div class="card-body">
-            <p class="card-text">¿Problemas con la aplicación?</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Comunicar Problema a Correo de Contacto</li>
-            <li class="list-group-item">mfernandez@netaxion.cl</li>
-        </ul>
-        <strong class="container">
-            <div class="card-footer text-muted ">
-                <script>
-                    var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-                    var diasSemana = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
-                    var f = new Date();
-                    document.write(diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
-                </script>
-        </strong>
     </div>
-</div>
 
 
 
-{% endblock %}
+    {% endblock %}

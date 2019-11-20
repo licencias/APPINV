@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from datetime import date
-import MySQLdb
+
 
 #INITIALIZATION
 app = Flask(__name__)
@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'almacen_componentes'
+app.config['MYSQL_DB'] = 'db3'
 mysql = MySQL(app)
 
 #SETTINGS
@@ -25,6 +25,32 @@ def page_not_found(e):
 @app.route('/formulario_factura')
 def formulario_factura():
     return render_template('formulario_factura.html')
+
+@app.route('/formulario_mostrar_componentes')
+def formulario_mostrar_componentes():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM db3.registro_componente')
+    data = cur.fetchall()
+    cur.close()
+    return render_template('formulario_mostrar_componentes.html',datos = data)
+
+@app.route('/tabla_mert_produccion')
+def tabla_mert_produccion():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM db3.mert_produccion')
+    data = cur.fetchall()
+    cur.close()
+
+    return render_template('tabla_mert_produccion.html',datos = data)
+
+@app.route('/tabla_mert_inventario')
+def tabla_mert_inventario():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM db3.mert')
+    data = cur.fetchall()
+    cur.close()
+
+    return render_template('tabla_mert_inventario.html',datos = data)
 
 @app.route('/qa_pic')
 def qa_pic():
@@ -56,7 +82,15 @@ def index():
 
 @app.route('/usuario_no_encontrado')
 def usuario_no_encontrado():
-        return render_template('usuario_no_encontrado.html')
+    return render_template('usuario_no_encontrado.html')
+
+@app.route('/formulario_mostrar')
+def formulario_mostrar():
+    return render_template('formulario_mostrar.html')
+
+@app.route('/formulario_modificar')
+def formulario_modificar():
+    return render_template('formulario_modificar.html')
 
 #FORMULARIOS
 
@@ -64,10 +98,10 @@ def usuario_no_encontrado():
 def form_prod():
     if(request.method == 'POST'):
         cur = mysql.connection.cursor()
-        cur.execute('UPDATE almacen_componentes.mert SET disponibilidad = 0 WHERE serial_salida = {}'.format(request.form['serie_origen']))
+        cur.execute('UPDATE mert SET disponibilidad = 0 WHERE serial_salida = {}'.format(request.form['serie_origen']))
         mysql.connection.commit() 
         
-        cur.execute('insert into mert_produccion (nombre_cliente,rut_cliente,fecha_salida, serial_salida,flota_destino) values (%s,%s,%s,%s,%s)',(request.form['nombre'],request.form['rut'],request.form['fecha'],request.form['serial'],request.form['flota']))
+        cur.execute('insert into mert_produccion (nombre_cliente,faena,fecha_salida, serial_salida,flota_destino) values (%s,%s,%s,%s,%s)',(request.form['nombre'],request.form['faena'],request.form['fecha'],request.form['serial'],request.form['flota']))
         mysql.connection.commit()        
         cur.close()
         return render_template('formulario_mert_produccion.html')
@@ -98,7 +132,7 @@ def formulario_comp():
             return render_template('usuario_no_encontrado.html')
 
         #registro_componente
-        cur.execute('UPDATE almacen_componentes.registro_componente SET quality_assurance=%s, fecha_produccion = %s, id_usuario= %s, tipo_producto = %s, estado_disponibilidad = %s WHERE  id_registro_componente=%s', (qa,fecha,id_usuario,tipo_producto,estado_disponibilidad,serial))
+        cur.execute('UPDATE registro_componente SET quality_assurance= %s, fecha_produccion = %s, id_usuario= %s, tipo_producto = %s, estado_disponibilidad = %s WHERE  id_registro_componente=%s', (qa,fecha,id_usuario,tipo_producto,estado_disponibilidad,serial))
         mysql.connection.commit()
 
         cur.close()
@@ -109,7 +143,7 @@ def form_qa_mert():
     if request.method == 'POST':
         cur = mysql.connection.cursor()
         if(int(request.form['radio']) == 1):
-            cur.execute('UPDATE almacen_componentes.mert SET qa = 1, disponibilidad = 1, id_registro_componente = 1 WHERE serial_salida = {}'.format(request.form['serial']))
+            cur.execute('UPDATE mert SET qa = 1, disponibilidad = 1, id_registro_componente = 1 WHERE serial_salida = {}'.format(request.form['serial']))
             mysql.connection.commit()
 
         cur.close()
@@ -118,18 +152,25 @@ def form_qa_mert():
 @app.route('/form_mert', methods=['POST'])
 def form_mert():
     if request.method == 'POST':
+        #listar componententes
+        cur = mysql.connection.cursor()
+        sql = "select * from db3.registro_componente"
+        cur.execute(sql)
+        print(cur.fetchone())
         #conexion a base de datos
         qa = 0
         cur = mysql.connection.cursor() 
         cur.execute('insert into mert (rut_usuario, fecha_produccion, serial_salida, qa) values (%s,%s,%s,%s)', (request.form['nombre'], request.form['rut'], request.form['serial'],qa))
         mysql.connection.commit()
-        cur.execute('SELECT * FROM registro_componente')
+        cur.execute('SELECT * FROM registro_componente ORDER BY nombre_producto')
         nombre_componente = "unstring"
         sql = cur.fetchall()
         for i in sql:
-            if(i[7] == "1" and i[2] != nombre_componente):
+            if(i[8] == "1" and i[1] != nombre_componente):
                 nombre_componente = i[2]
-                cur.execute('UPDATE almacen_componentes.registro_componente SET estado_disponibilidad = 0 WHERE id_registro_componente = {}'.format(i[0]))
+                print(i[0],i[1],i[2],i[3])
+                print(request.form['serial'])
+                cur.execute('update registro_componente set estado_disponibilidad = 0, serie_premert = %s WHERE id_registro_componente = %s',(request.form['serial'],i[0]))
                 mysql.connection.commit()
         cur.close()
 
@@ -146,43 +187,59 @@ def formulario_proveedor():
     if request.method == 'POST':
         #conexion a base de datos
         cur = mysql.connection.cursor() 
-        cur.execute('insert into factura (nombre_proveedor, rut_proveedor) values (%s,%s)', (request.form['nombre_proveedor'], request.form['rut_proveedor']))
+        cur.execute('insert into db3.factura (nombre_proveedor, rut_proveedor) values (%s,%s)', (request.form['nombre_proveedor'], request.form['rut_proveedor']))
         mysql.connection.commit()
-        sll = cur.execute('select * FROM factura')
-        id_factura = sll  
-        cur.execute('insert into detalle_factura (id_factura, identificador_producto, nombre_producto, fecha_factura, cantidad) values (%s,%s,%s,%s,%s)', (id_factura, request.form['codigo_producto'], request.form['nombre_producto'], request.form['fecha_factura'], request.form['cantidad']))
+        sll = cur.execute('select * FROM db3.factura')
+        id_factura = sll
+        cur.execute('insert into db3.detalle_factura (id_factura, nombre_producto, fecha_factura, cantidad, precio_neto, iva, precio_total) values (%s,%s,%s,%s,%s,%s,%s)', (id_factura, request.form['nombre_producto'], request.form['fecha_factura'], request.form['cantidad'], request.form['valor_neto'], request.form['iva'], request.form['valor_total']))
         mysql.connection.commit()
         if(int(request.form['cantidad']) >= 1):
             for i in range(int(request.form['cantidad'])):
-                cur.execute('insert into registro_componente (id_detalle_factura, nombre_producto) values (%s,%s)', (id_factura, request.form['nombre_producto']))
+                sql = cur.execute('insert into db3.registro_componente (nombre_producto) values (%s)',(request.form['nombre_producto'],))
+                print(request.form['nombre_producto'])
                 mysql.connection.commit()
-                cur.execute('insert into detalle_registro_componente (id_registro_Componente) values ('"%s"')', (id_factura, ))
-                mysql.connection.commit() 
         cur.close()
 
         return render_template('index.html')
 
-@app.route('/form_pic',methods = ['POST'])
-def form_pic():
-    if(request.method == 'POST'):
-        id_usuario = request.form['id_usuario']
-        fecha = date.today()
-        tipo_producto = "pic"
-        estado_disponibilidad = 0
-        #usuario
+@app.route('/delete/<string:id>', methods = ['POST','GET'])
+def delete_mert_inventario(id):
+    cur = mysql.connection.cursor()
+    cur.execute('DELETE FROM db3.mert WHERE id_mert = {0}'.format(id))
+    mysql.connection.commit()
+    cur.close()
+    return redirect(url_for('index'))
+    
+@app.route('/delete2/<string:id>', methods = ['POST','GET'])
+def delete2_mert_inventario(id):
+    cur = mysql.connection.cursor()
+    cur.execute('DELETE FROM db3.mert_produccion WHERE id_mert_produccion = {0}'.format(id))
+    mysql.connection.commit()
+    cur.close()
+    return redirect(url_for('index'))
+
+@app.route('/edit/<id>', methods = ['POST', 'GET'])
+def get_contact(id):
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM db3.mert WHERE id_mert = %s', (id),)
+    data = cur.fetchall()
+    cur.close()
+    return render_template('editar.html', mert = data[0])
+
+@app.route('/update/<id>', methods=['POST'])
+def update_mert(id):
+    if request.method == 'POST':
         cur = mysql.connection.cursor()
-        user = cur.execute('SELECT * FROM usuario')
-        #
-        cur.execute('insert into detalle_registro_componente (id_registro_Componente) values ('"%s"')', (id_factura, ))
-        mysql.connection.commit() 
+        cur.execute("""
+            UPDATE db3.mert
+            SET rut_usuario = %s,
+                fecha_produccion = %s,
+                serial_salida = %s
+            WHERE id_mert = %s
+        """, (request.form['rut'], request.form['fecha'], request.form['serial'], id))
+        mysql.connection.commit()
         cur.close()
-        if(int(id_usuario) <= int(user) and int(id_usuario) >= 0):
-            id_usuario = request.form['id_usuario']
-        else:
-            print("here")
-            return render_template('usuario_no_encontrado.html')
-
-
+        return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(port=3000 ,debug=True)

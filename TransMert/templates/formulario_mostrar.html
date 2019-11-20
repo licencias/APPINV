@@ -1,7 +1,5 @@
 {% extends "layout.html" %} {% block body %}
-<script>
-    alert("El ID Del Usuario No Existe");
-</script>
+
 <div class="row">
     <div class="col-md-3" id="seccion">
         <div class="card card-body" id="selector">
@@ -32,7 +30,18 @@
     </div>
     <div class="col-md-7">
         <div class="card card-body">
-            <a href="formulario_componente"><button class="btn btn-success">Volver a Llenar Formulario de Componentes</button></a> {% endblock %}
+            <form action="">
+                <div class="form-group">
+                    <a href="tabla_mert_produccion" class="form-control btn btn-primary">MERT a Producción</a>
+                </div>
+                <div class="form-group">
+                    <a href="tabla_mert_inventario" class="form-control btn btn-primary">MERT en Inventario</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+
+
+{% endblock %}
