@@ -1,6 +1,6 @@
 {% extends "layout.html" %} {% block body %}
 <div class="row">
-    < <div class="col-md-3" id="seccion">
+    <div class="col-md-3" id="seccion">
         <div class="card card-body" id="selector">
             <form action="">
                 <div class="form-group">
@@ -26,46 +26,46 @@
                 </div>
             </form>
         </div>
-</div>
-<div class="col-md-7">
-    <div class="card card-body">
-        <form action="/form_mert" method="POST">
-            <h2>Registrar un MERT</h2>
-            <br>
-            <strong>
+    </div>
+    <div class="col-md-7">
+        <div class="card card-body">
+            <form action="/form_mert" method="POST">
+                <h2>Registrar un MERT</h2>
+                <br>
+                <strong>
                         <h4>Datos del Usuario:</h4>
                     </strong>
-            <div class="form-group">
-                <br><br>
-                <strong>Nombre del Usuario</strong>
-                <input type="text" name="nombre" placeholder="Su Nombre" class=" form-control" required>
-            </div>
-            <div class="form-group">
-                <br><br>
-                <strong>Rut del Usuario</strong>
-                <input type="text" name="rut" placeholder="Su RUT" class=" form-control" required>
-            </div>
-            <strong>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Nombre del Usuario</strong>
+                    <input type="text" name="nombre" placeholder="Su Nombre" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <br><br>
+                    <strong>Rut del Usuario</strong>
+                    <input type="text" name="rut" placeholder="Su RUT" class=" form-control" required>
+                </div>
+                <strong>
                 <h4>Datos del Componente:</h4>
             </strong>
-            <div class="form-group">
-                <br><br>
-                <strong>Numero de serial asignada al MERT</strong>
-                <input type="number" name="serial" placeholder="serial asignada" class=" form-control" required>
-            </div>
-            <div class="form-group">
-                <br>
-                <div class="container form-group row">
-                    <div>
-                        <button type="submit" class="btn btn-success">
+                <div class="form-group">
+                    <br><br>
+                    <strong>Numero de serial asignada al MERT</strong>
+                    <input type="number" name="serial" placeholder="serial asignada" class=" form-control" required>
+                </div>
+                <div class="form-group">
+                    <br>
+                    <div class="container form-group row">
+                        <div>
+                            <button type="submit" class="btn btn-success">
                         Guardar
                     </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 </div>
 
 
